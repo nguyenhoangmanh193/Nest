@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
+    
         const uri = configService.get<string>('database.uri');
         return {
           dialect: 'postgres',
