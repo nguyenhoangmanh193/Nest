@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,17 +17,18 @@ export class UserRepository {
    }
 
 
-  async update(id: number, dto: UpdateUserDto): Promise<User> {
+  async update(id: number, dto: UpdateUserDto): Promise<User | null> {
     const user = await this.userModel.findByPk(id);
-    if (!user) throw new NotFoundException(`User with id ${id} not found`);
+    if (!user) return null;
     Object.assign(user, dto);
     return user.save();
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: number): Promise<boolean> {
     const user = await this.userModel.findByPk(id);
-    if (!user) throw new NotFoundException(`User with id ${id} not found`);
+    if (!user) return false;
     await user.destroy();
+    return true;
   }
 
   async findById(id: number): Promise<User | null> {
@@ -39,6 +40,6 @@ export class UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.findAll();
+    return this.userModel.findAll({raw:true});
   }
 }
