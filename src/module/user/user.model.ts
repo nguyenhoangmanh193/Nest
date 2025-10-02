@@ -1,21 +1,5 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-export enum UserRole {
-  ADMIN = 'administrator',
-  VIEWER = 'viewer',
-  MODERATOR = 'moderator',
-}
-
-export enum AccountType {
-  PRO = 'pro',
-  BASIC = 'basic',
-}
-
-export enum UserActive {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-}
-
 @Table({
   tableName: 'users',
   timestamps: true,
@@ -29,44 +13,45 @@ export class User extends Model<User> {
   declare id: number;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  fullname: string;
+  declare fullname: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  phone: string;
+  declare phone: string;
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  email: string;
+  declare email: string;
 
   @Column({ type: DataType.DATE, allowNull: true })
-  date: Date;
+  declare date: Date;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  addressArea: string;
+  declare addressArea: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  addressCity: string;
+  declare addressCity: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  addressCountry: string;
+  declare addressCountry: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  postCode: string;
+  declare postCode: string;
 
-  @Column({
-    type: DataType.ENUM(...Object.values(UserRole)), // <- dùng enum
+   @Column({
+    type: DataType.ENUM('administrator', 'viewer', 'moderator'),
     allowNull: false,
   })
-  role: UserRole;
+  declare role: string;
+
 
   @Column({
-    type: DataType.ENUM(...Object.values(AccountType)),
+    type: DataType.ENUM('pro', 'basic'),
     allowNull: false,
   })
-  accountType: AccountType;
+  declare accountType: string;
 
   @Column({
-    type: DataType.ENUM(...Object.values(UserActive)),
-    defaultValue: UserActive.ACTIVE,
+    type: DataType.ENUM('active', 'inactive'),
+    allowNull: false,
   })
-  status: UserActive;
+  declare status: string;
 }

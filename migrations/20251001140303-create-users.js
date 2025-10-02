@@ -52,7 +52,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM('active', 'inactive'),
-        defaultValue: 'active',
+        allowNull: false,
+        defaultValue: 'active', // bắt buộc mặc định active
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           dialectOptions: {
             ssl: {
               require: true,
-              rejectUnauthorized: false, // Neon yêu cầu
+              rejectUnauthorized: false, 
             },
           },
         };

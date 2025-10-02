@@ -1,7 +1,3 @@
-import { AccountType, UserActive, UserRole } from "../user.model";
-
-
-
 export class UserResponseDto {
   id: number;
   fullname: string;
@@ -12,9 +8,9 @@ export class UserResponseDto {
   addressCity: string;
   addressCountry: string;
   postCode: string;
-  role: UserRole;
-  accountType: AccountType;
-  status: UserActive;
+  role: string;
+  accountType: string;
+  status: string;
 
   constructor(partial: Partial<UserResponseDto>) {
     Object.assign(this, partial);

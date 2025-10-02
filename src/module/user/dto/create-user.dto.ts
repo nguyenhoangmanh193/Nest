@@ -1,37 +1,21 @@
-import { IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
-import { AccountType, UserActive, UserRole } from "../user.model";
+import { IsString, IsNotEmpty, IsEmail, IsOptional, IsIn } from 'class-validator';
 
-export class CreateUserDto{
+export class CreateUserDto {
+  @IsString() @IsNotEmpty() fullname: string;
+  @IsString() @IsNotEmpty() phone: string;
+  @IsEmail() @IsNotEmpty() email: string;
+  @IsOptional() date?: Date;
+  @IsString() @IsNotEmpty() addressArea: string;
+  @IsString() @IsNotEmpty() addressCity: string;
+  @IsString() @IsNotEmpty() addressCountry: string;
+  @IsString() @IsNotEmpty() postCode: string;
 
-    @IsString()
-    fullname: string;
-    
-    @IsString()
-    phone: string;
+  @IsString() @IsIn(['administrator', 'viewer', 'moderator'])
+  role: string;
 
-    @IsString()
-    email: string;
+  @IsString() @IsIn(['pro', 'basic'])
+  accountType: string;
 
-    @IsOptional()
-    @IsDateString()
-    date?: string;
-
-    @IsString()
-    addressArea: string;
-
-    @IsString()
-    addressCity: string;
-
-    @IsString()
-    addressCountry: string;
-
-    @IsEnum(UserRole)
-    role: UserRole;
-
-    @IsEnum(AccountType)
-    accountType: AccountType;
-
-    @IsEnum(UserActive)
-    status: UserActive;
-
+  @IsOptional() @IsString() @IsIn(['active', 'inactive'])
+  status?: string;
 }
