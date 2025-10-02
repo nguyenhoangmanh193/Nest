@@ -1,16 +1,19 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, DeletedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Role } from './common/role.model';
+import { AccountType } from './common/account-type.model';
 
 @Table({
   tableName: 'users',
   timestamps: true,
+  paranoid: true,
 })
 export class User extends Model<User> {
   @Column({
-    type: DataType.INTEGER,
-    autoIncrement: true,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     primaryKey: true,
   })
-  declare id: number;
+  declare id: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
   declare fullname: string;
@@ -36,22 +39,31 @@ export class User extends Model<User> {
   @Column({ type: DataType.STRING, allowNull: false })
   declare postCode: string;
 
-   @Column({
-    type: DataType.ENUM('administrator', 'viewer', 'moderator'),
-    allowNull: false,
-  })
-  declare role: string;
-
-
+  // role 
+  @ForeignKey(() => Role) 
   @Column({
-    type: DataType.ENUM('pro', 'basic'),
-    allowNull: false,
+    type: DataType.INTEGER,
   })
-  declare accountType: string;
+  declare roleId: number;
+  @BelongsTo(() => Role)
+  declare role: Role;
+  
+  
+  // account type
+  @ForeignKey(() => AccountType)
+  @Column({ type: DataType.INTEGER })
+  declare accountTypeId: number;
+
+  @BelongsTo(() => AccountType)
+  declare accountType: AccountType;
 
   @Column({
     type: DataType.ENUM('active', 'inactive'),
     allowNull: false,
   })
   declare status: string;
+
+  @DeletedAt
+  declare deletedAt: Date | null;
+
 }
